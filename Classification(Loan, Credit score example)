@@ -162,9 +162,11 @@ chisq.test(table(cdata$Creditability,cdata$Telephone))
 #*next buat split data into training & testing data guna coding bwh (commonly used in Machine learning)
 #install.packages("caret")
 #library(caret)
-#indexes= sample(1:nrow(German.Credit), size= 0.5*nrow(German.Credit)) #ambik) random sample 50% of r
-#Train50<- German.Credit[indexes] #Training data contains created indexes
-#Test50<- German.Credit[-indexes] #Test data contains the rest
+#data("GermanCredit")
+#set.seed(123)
+#indexes= sample(1:nrow(GermanCredit), size= 0.5*nrow(GermanCredit)) #ambik) random sample 50% of r
+#Train50<- GermanCredit[indexes,] #Training data contains created indexes
+#Test50<- GermanCredit[-indexes,] #Test data contains the rest
 #*Using any proportion, other than 0.5 above and size Training and Test data can be constructed
 #==============================================================
 
