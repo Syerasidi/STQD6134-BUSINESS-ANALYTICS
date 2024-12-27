@@ -1,0 +1,298 @@
+#ori data nak regroup
+cdata<- read.csv('ori_data.csv')
+str(cdata)
+
+#nak view ada berapa value dalam satu column/variable
+table(cdata$Account.Balance)
+table(cdata$Payment.Status.of.Previous.Credit)
+table(cdata$Value.Savings.Stocks)
+table(cdata$Length.of.current.employment)
+table(cdata$Sex...Marital.Status)
+table(cdata$Guarantors)
+table(cdata$No.of.Credits.at.this.Bank)
+table(cdata$Purpose)
+
+#DATA CLEANING & PREPROCESSING
+#regroup column in certain variables
+#1) Account Balance
+locc=which(cdata$Account.Balance == 4)
+cdata$Account.Balance= replace(cdata$Account.Balance, locc, 3) #replace the value 4->3
+
+#2) Payment status
+#0 and 1--> 1, 3 and 4--> 3
+locc=which(cdata$Payment.Status.of.Previous.Credit == 0)
+cdata$Payment.Status.of.Previous.Credit= replace(cdata$Payment.Status.of.Previous.Credit, locc, 1) #replace the value 0->1
+locc=which(cdata$Payment.Status.of.Previous.Credit == 4)
+cdata$Payment.Status.of.Previous.Credit= replace(cdata$Payment.Status.of.Previous.Credit, locc, 3) #replace the value 4->3
+
+#3) Saving stock value
+#3 and 4 --> 3
+locc= which(cdata$Value.Savings.Stocks == 4)
+cdata$Value.Savings.Stocks= replace(cdata$Value.Savings.Stocks, locc, 3)
+locc= which(cdata$Value.Savings.Stocks == 5)
+cdata$Value.Savings.Stocks= replace(cdata$Value.Savings.Stocks, locc, 4)
+
+#4) Employment length
+# 2->1, 3-> 2, 4->3, 5->4
+locc= which(cdata$Length.of.current.employment == 2)
+cdata$Length.of.current.employment= replace(cdata$Length.of.current.employment, locc, 1)
+locc= which(cdata$Length.of.current.employment == 3)
+cdata$Length.of.current.employment= replace(cdata$Length.of.current.employment, locc, 2)
+locc= which(cdata$Length.of.current.employment == 4)
+cdata$Length.of.current.employment= replace(cdata$Length.of.current.employment, locc, 3)
+locc= which(cdata$Length.of.current.employment == 5)
+cdata$Length.of.current.employment= replace(cdata$Length.of.current.employment, locc, 4)
+
+#5) sex/Marital status
+# 2->1, 3->2, 4->3
+locc= which(cdata$Sex...Marital.Status == 2)
+cdata$Sex...Marital.Status= replace(cdata$Sex...Marital.Status, locc, 1)
+locc= which(cdata$Sex...Marital.Status == 3)
+cdata$Sex...Marital.Status= replace(cdata$Sex...Marital.Status, locc, 2)
+locc= which(cdata$Sex...Marital.Status == 4)
+cdata$Sex...Marital.Status= replace(cdata$Sex...Marital.Status, locc, 3)
+
+#6) No of credit at this bank
+# 3,4,5 --> 2
+locc= which(cdata$No.of.Credits.at.this.Bank == 3)
+cdata$No.of.Credits.at.this.Bank= replace(cdata$No.of.Credits.at.this.Bank, locc, 2)
+locc= which(cdata$No.of.Credits.at.this.Bank == 4)
+cdata$No.of.Credits.at.this.Bank= replace(cdata$No.of.Credits.at.this.Bank, locc, 2)
+locc= which(cdata$No.of.Credits.at.this.Bank == 5)
+cdata$No.of.Credits.at.this.Bank= replace(cdata$No.of.Credits.at.this.Bank, locc, 2)
+
+#7) Guarantor
+# 3->2
+locc= which(cdata$Guarantors == 3)
+cdata$Guarantors= replace(cdata$Guarantors, locc, 2)
+
+#8) Concurrent credits
+# 2->1, 3->2
+locc= which(cdata$Concurrent.Credits == 2)
+cdata$Concurrent.Credits= replace(cdata$Concurrent.Credits, locc, 1)
+locc= which(cdata$Concurrent.Credits == 3)
+cdata$Concurrent.Credits= replace(cdata$Concurrent.Credits, locc, 2)
+
+#9) purpose of credit
+# 4->3 
+locc= which(cdata$Purpose == 4)
+cdata$Purpose= replace(cdata$Purpose, locc, 3)
+# 10,9,8,7,6 -->4
+locc= which(cdata$Purpose == 10)
+cdata$Purpose= replace(cdata$Purpose, locc, 4)
+locc= which(cdata$Purpose == 9)
+cdata$Purpose= replace(cdata$Purpose, locc, 4)
+locc= which(cdata$Purpose == 8)
+cdata$Purpose= replace(cdata$Purpose, locc, 4)
+locc= which(cdata$Purpose == 7)
+cdata$Purpose= replace(cdata$Purpose, locc, 4)
+locc= which(cdata$Purpose == 6)
+cdata$Purpose= replace(cdata$Purpose, locc, 4)
+# 2->3
+locc= which(cdata$Purpose == 2)
+cdata$Purpose= replace(cdata$Purpose, locc, 3)
+# 5->3
+locc= which(cdata$Purpose == 5)
+cdata$Purpose= replace(cdata$Purpose, locc, 3)
+# 1->2
+locc= which(cdata$Purpose == 1)
+cdata$Purpose= replace(cdata$Purpose, locc, 2)
+# 0->1
+locc= which(cdata$Purpose == 0)
+cdata$Purpose= replace(cdata$Purpose, locc, 1)
+
+#change the variable into factor var
+cdata$Creditability=as.factor(cdata$Creditability)
+cdata$Account.Balance=as.factor(cdata$Account.Balance)
+cdata$Payment.Status.of.Previous.Credit= as.factor(cdata$Payment.Status.of.Previous.Credit)
+cdata$Value.Savings.Stocks= as.factor(cdata$Value.Savings.Stocks)
+cdata$Length.of.current.employment= as.factor(cdata$Length.of.current.employment)
+cdata$Instalment.per.cent= as.factor(cdata$Instalment.per.cent)
+cdata$Occupation= as.factor(cdata$Occupation)
+cdata$Sex...Marital.Status=as.factor(cdata$Sex...Marital.Status)
+cdata$Duration.in.Current.address=as.factor(cdata$Duration.in.Current.address)
+cdata$Type.of.apartment= as.factor(cdata$Type.of.apartment)
+cdata$Most.valuable.available.asset= as.factor(cdata$Value.Savings.Stocks)
+cdata$No.of.Credits.at.this.Bank= as.factor(cdata$No.of.Credits.at.this.Bank)
+cdata$Guarantors=as.factor(cdata$Guarantors)
+cdata$Concurrent.Credits= as.factor(cdata$Concurrent.Credits)
+cdata$No.of.dependents= as.factor(cdata$No.of.dependents)
+cdata$Telephone= as.factor(cdata$Telephone)
+cdata$Foreign.Worker= as.factor(cdata$Foreign.Worker)
+cdata$Purpose= as.factor(cdata$Purpose)
+
+# Summary for the continuous variables
+summary(cdata$Duration.of.Credit..month.)
+summary(cdata$Credit.Amount)
+summary(cdata$Age..years.)
+
+#Distribution of the continuous variables
+par(mfrow=c(1,3))
+hist(cdata$Duration.of.Credit..month., xlab = "Credit Month")
+hist(cdata$Credit.Amount, xlab = "Credit Amount")
+hist(cdata$Age..years., main= "Age")
+
+boxplot(cdata$Duration.of.Credit..month., main = "Credit Month")
+boxplot(cdata$Credit.Amount, main = "Credit Amount")
+boxplot(cdata$Age..years., main="Age")
+
+#run T-TEST for CONTINUOUS VARIABLE (oridata)
+t.test(cdata$Duration.of.Credit..month.~ cdata$Creditability)
+t.test(cdata$Credit.Amount ~ cdata$Creditability)
+t.test(cdata$Age..years.~cdata$Creditability)
+
+#run CHISQUARE TEST for CATEGORICAL VARIABLE (oridata)
+chisq.test(table(cdata$Creditability,cdata$Account.Balance))
+chisq.test(table(cdata$Creditability,cdata$Payment.Status.of.Previous.Credit))
+chisq.test(table(cdata$Creditability,cdata$Value.Savings.Stocks))
+chisq.test(table(cdata$Creditability,cdata$Purpose))
+chisq.test(table(cdata$Creditability,cdata$Length.of.current.employment))
+chisq.test(table(cdata$Creditability,cdata$Instalment.per.cent))
+chisq.test(table(cdata$Creditability,cdata$Occupation))
+chisq.test(table(cdata$Creditability,cdata$Sex...Marital.Status))
+chisq.test(table(cdata$Creditability,cdata$Duration.in.Current.address))
+chisq.test(table(cdata$Creditability,cdata$Type.of.apartment))
+chisq.test(table(cdata$Creditability,cdata$Most.valuable.available.asset))
+chisq.test(table(cdata$Creditability,cdata$No.of.Credits.at.this.Bank))
+chisq.test(table(cdata$Creditability,cdata$Guarantors))
+chisq.test(table(cdata$Creditability,cdata$Concurrent.Credits))
+chisq.test(table(cdata$Creditability,cdata$No.of.dependents))
+chisq.test(table(cdata$Creditability,cdata$Telephone))
+
+#*next buat split data into training & testing data guna coding bwh (commonly used in Machine learning)
+#install.packages("caret")
+#library(caret)
+#indexes= sample(1:nrow(German.Credit), size= 0.5*nrow(German.Credit)) #ambik) random sample 50% of r
+#Train50<- German.Credit[indexes] #Training data contains created indexes
+#Test50<- German.Credit[-indexes] #Test data contains the rest
+#*Using any proportion, other than 0.5 above and size Training and Test data can be constructed
+#==============================================================
+
+#Load cleaned train_data & test_data (yg ni dah siap2 split)
+Train50<- read.csv("train_data.csv")
+str(Train50)
+
+#change Train50 variable into factor var
+Train50$Creditability=as.factor(Train50$Creditability)
+Train50$Account.Balance=as.factor(Train50$Account.Balance)
+Train50$Payment.Status.of.Previous.Credit= as.factor(Train50$Payment.Status.of.Previous.Credit)
+Train50$Purpose= as.factor(Train50$Purpose)
+Train50$Value.Savings.Stocks= as.factor(Train50$Value.Savings.Stocks)
+Train50$Length.of.current.employment= as.factor(Train50$Length.of.current.employment)
+Train50$Instalment.per.cent= as.factor(Train50$Instalment.per.cent)
+Train50$Sex...Marital.Status=as.factor(Train50$Sex...Marital.Status)
+Train50$Duration.in.Current.address= as.factor(Train50$Duration.in.Current.address)
+Train50$Most.valuable.available.asset= as.factor(Train50$Most.valuable.available.asset)
+Train50$Type.of.apartment= as.factor(Train50$Type.of.apartment)
+Train50$No.of.Credits.at.this.Bank= as.factor(Train50$No.of.Credits.at.this.Bank)
+Train50$Guarantors=as.factor(Train50$Guarantors)
+Train50$Occupation= as.factor(Train50$Occupation)
+Train50$Concurrent.Credits= as.factor(Train50$Concurrent.Credits)
+Train50$No.of.dependents= as.factor(Train50$No.of.dependents)
+Train50$Telephone= as.factor(Train50$Telephone)
+
+#Logistic regression model
+#kira var yg p-value chisquare dgn p-value t-test <0.001
+LogisticModel50 <- glm(Creditability ~ Account.Balance + Payment.Status.of.Previous.Credit + Purpose + Value.Savings.Stocks + 
+                         Length.of.current.employment + Sex...Marital.Status + Most.valuable.available.asset + Type.of.apartment + Concurrent.Credits + 
+                         Duration.of.Credit..month.+ Credit.Amount + Age..years., 
+                       family=binomial, data = Train50)
+
+ 
+LogisticModel50final <- glm(Creditability ~ Account.Balance + Payment.Status.of.Previous.Credit + Purpose + 
+                              Length.of.current.employment + Sex...Marital.Status, family=binomial, data = Train50)
+
+
+fit50 <- fitted.values(LogisticModel50final)   #all fitted value in the form of (0/1)
+Threshold50 <- rep(0,500)
+for (i in 1:500)
+  if(fit50[i] >= 0.5) Threshold50[i] <- 1
+
+install.packages("gmodels")
+library(gmodels)
+CrossTable(Train50$Creditability, Threshold50, digits=1, prop.r=F, prop.t=F, prop.chisq=F, chisq=F, data=Train50)
+#check accuracy of cross table
+(44+328)/500
+#========================================
+#lepas dah dapat model logistic utk training data, kita predict testing data guna model yg sama
+
+Test50<- read.csv("test_data.csv")
+str(Test50)
+
+#change Test50 variables to factor variable
+Test50$Creditability=as.factor(Test50$Creditability)
+Test50$Account.Balance=as.factor(Test50$Account.Balance)
+Test50$Payment.Status.of.Previous.Credit= as.factor(Test50$Payment.Status.of.Previous.Credit)
+Test50$Purpose= as.factor(Test50$Purpose)
+Test50$Value.Savings.Stocks= as.factor(Test50$Value.Savings.Stocks)
+Test50$Length.of.current.employment= as.factor(Test50$Length.of.current.employment)
+Test50$Instalment.per.cent= as.factor(Test50$Instalment.per.cent)
+Test50$Sex...Marital.Status=as.factor(Test50$Sex...Marital.Status)
+Test50$Duration.in.Current.address= as.factor(Test50$Duration.in.Current.address)
+Test50$Most.valuable.available.asset= as.factor(Test50$Most.valuable.available.asset)
+Test50$Type.of.apartment= as.factor(Test50$Type.of.apartment)
+Test50$No.of.Credits.at.this.Bank= as.factor(Test50$No.of.Credits.at.this.Bank)
+Test50$Guarantors=as.factor(Test50$Guarantors)
+Test50$Occupation= as.factor(Test50$Occupation)
+Test50$Concurrent.Credits= as.factor(Test50$Concurrent.Credits)
+Test50$No.of.dependents= as.factor(Test50$No.of.dependents)
+Test50$Telephone= as.factor(Test50$Telephone)
+
+Threshold50 <- rep(0,500)
+for (i in 1:500)
+  if(fit50[i] >= 0.5) Threshold50[i] <- 1
+
+CrossTable(Test50$Creditability, Threshold50, digits=1, prop.r=F, prop.t=F, prop.chisq=F, chisq=F, data=Test50)
+#check accuracy of crosstable
+(25+295)/500
+
+pred<- predict(LogisticModel50final, data= Test50, type= "response") #response to make the output appear as probability
+tres_pred<- rep(0,500)
+
+
+#ROC curve
+install.packages("ROCR")
+library(ROCR)
+#nak buat curve based on original data dgn prediction
+prod_pred<- prediction(fit50, Train50$Creditability)
+par(mfrow=c(1,1))
+plot(performance(prod_pred, "tpr", "fpr"))    #truepositverate, falsepositiverate
+
+prod_pred_Train50<- prediction(fit50, Test50$Creditability)
+plot(performance(prod_pred, "tpr", "fpr"))
+
+#TREE MODEL
+install.packages("tree")
+library(tree)
+
+#initialize tree model guna train_data
+Train50_tree <- tree(Creditability ~ Account.Balance+Duration.of.Credit..month.+Payment.Status.of.Previous.Credit+
+                       Purpose+Credit.Amount+Value.Savings.Stocks+Length.of.current.employment+Instalment.per.cent+Sex...Marital.Status+
+                       Guarantors+Duration.in.Current.address+Most.valuable.available.asset+Age..years.+Concurrent.Credits+
+                       Type.of.apartment+No.of.Credits.at.this.Bank+Occupation+No.of.dependents+Telephone, data=Train50, method="class")
+
+summary(Train50_tree)
+plot(Train50_tree)
+text(Train50_tree, pretty=0,cex=0.6)
+Train50_pred <- predict(Train50_tree, Train50, type="class")
+#error rate utk training data
+table(Train50_pred, Train50$Creditability)
+sum(diag(as.matrix(table(Train50_pred, Train50$Creditability))))/500
+
+Train50_prune8 <- prune.misclass(Train50_tree, best=8)
+Train50_prune8_pred <- predict(Train50_prune8, Train50, type="class")
+table(Train50_prune8_pred, Train50$Creditability)
+sum(diag(as.matrix(table(Train50_prune8_pred, Train50$Creditability))))/500
+#==============MODEL TREE UTK TRAIN DATA DONE
+
+#tree model yg dah create guna train data 
+#predict test data guna tree model created
+Test50_pred <- predict(Train50_tree, Test50, type="class")
+#error rate utk training data
+table(Test50_pred, Test50$Creditability)
+sum(diag(as.matrix(table(Test50_pred, Test50$Creditability))))/500
+
+Test50_prune8_pred <- predict(Train50_prune8, Test50, type="class")
+table(Test50_prune8_pred, Test50$Creditability)
+#to check 
+sum(diag(as.matrix(table(Test50_prune8_pred, Test50$Creditability))))/500
